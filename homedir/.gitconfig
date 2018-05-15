@@ -1,0 +1,33 @@
+[user]
+	name = Clement Dessoude
+	email = clement.dessoude@gmail.com
+[github]
+  # https://github.com/blog/180-local-github-config
+  user = clement26695
+[core]
+	excludesfile = ~/.gitignore_global
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = ~/.gitmessage.txt
+[alias]
+	co = checkout
+	ci = commit
+	cim = commit -m
+	st = status
+	br = branch
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	ps = push
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+	pl = !"git pull; git submodule foreach git pull origin master"
+	cl = clone --recursive
+	branches = branch -a
+	remotes = remote -v

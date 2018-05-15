@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-echo "Start changing Preferences"
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+bot "Start changing Preferences"
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
 osascript -e 'tell application "System Preferences" to quit'
@@ -8,13 +11,26 @@ osascript -e 'tell application "System Preferences" to quit'
 # Ask for the administrator password upfront
 sudo -v
 
-# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
 # -------------------------------------------------------------------
 # General UI/UX
 # -------------------------------------------------------------------
-echo "Start changing General UI/UX Preferences"
+bot "Start changing General UI/UX Preferences"
+
+################################################
+# Computer Name
+################################################
+DEFAULT_PCNAME=`sudo scutil --get ComputerName`
+question "Which name you want to give you Mac? [$DEFAULT_PCNAME] " pcname
+if [[ ! $pcname ]];then
+  pcname=$DEFAULT_PCNAME
+fi
+# running "Set computer name (as done via System Preferences → Sharing)"
+running "Set computer name to: $pcname"
+sudo scutil --set ComputerName "$pcname"
+sudo scutil --set HostName "$pcname"
+sudo scutil --set LocalHostName "$pcname"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$pcname"
+dscacheutil -flushcache;ok
 
 # Disable the sound effects on boot
 sudo nvram SystemAudioVolume=" "
@@ -71,15 +87,105 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo Hos
 # Disable auto-correct
 # defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
+################################################
+bot "Configuring Menu bar"
+################################################
+running "Hide the Time Machine, Volume, User, and Bluetooth icons"
+for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
+  defaults write "${domain}" dontAutoLoad -array \
+    "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
+    "/System/Library/CoreServices/Menu Extras/User.menu" \
+    "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+	"/System/Library/CoreServices/Menu Extras/Displays.menu"
+done;ok
+
+running "Show the Airport, VPN, Battery and Clock icons"
+defaults write com.apple.systemuiserver menuExtras -array \
+  "/System/Library/CoreServices/Menu Extras/Volume.menu" \
+  "/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+  "/System/Library/CoreServices/Menu Extras/Battery.menu" \
+  "/System/Library/CoreServices/Menu Extras/Clock.menu"
+ok
+
+running "Set battery icon to show percentage"
+defaults write com.apple.menuextra.battery ShowPercent -string "YES";ok
+
+running "Set clock to show as digital"
+defaults write com.apple.menuextra.clock IsAnalog -bool false;ok
+
+running "Disable seconds seperators flash on clock"
+defaults write com.apple.menuextra.clock FlashDateSeparators -bool false;ok
+
+running "Set clock to show in weekday, day and hour format"
+defaults write com.apple.menuextra.clock DateFormat -string "EEE d MMM  HH:mm";ok
+
+botdone
+
 # -------------------------------------------------------------------
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input
 # -------------------------------------------------------------------
-echo "Start changing Trackpad, mouse, keyboard, Bluetooth accessories, and input Preferences"
+bot "Start changing Trackpad, mouse, keyboard, Bluetooth accessories, and input Preferences"
 
-# Trackpad: enable tap to click for this user and for the login screen
+################################################
+bot "Configuring System Preferences > Trackpad"
+################################################
+
+#running "Trackpad: enable tap to click for this user and for the login screen"
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
-defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1;ok
+
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+
+running "Enable three finger tap (look up)"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerTapGesture -int 0;ok
+
+running "Enable three finger drag"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -int 0;ok
+
+# running "Disable “natural” (Lion-style) scrolling"
+defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false;ok
+
+running "Zoom in or out"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadPinch -bool true;ok
+
+running "Smart zoom, double-tap with two fingers"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerDoubleTapGesture -bool true;ok
+
+running "Rotate"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRotate -bool true;ok
+
+running "Swipe between full-screen apps with three fingers"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 2;ok
+
+running "Show Notification Center"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3;ok
+
+# other gestures
+running "Enabling other gestures"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerVertSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerPinchGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFourFingerHorizSwipeGesture -int 2
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadFiveFingerPinchGesture -int 2;ok
+
+running "Show Mission Control"
+defaults write com.apple.dock showMissionControlGestureEnabled -bool true;ok
+
+running "Disable Show Expose"
+defaults write com.apple.dock showAppExposeGestureEnabled -bool false;ok
+
+running "Disable the Launchpad gesture (pinch with thumb and three fingers)"
+defaults write com.apple.dock showLaunchpadGestureEnabled -int 0;ok
+
+running "Enable Show Desktop"
+defaults write com.apple.dock showDesktopGestureEnabled -bool true;ok
+
+botdone
+
+# Disable “natural” (Lion-style) scrolling
+# defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
 # Increase sound quality for Bluetooth headphones/headsets
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
@@ -93,6 +199,16 @@ defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
 defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
 # Follow the keyboard focus while zoomed in
 defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+
+# Disable press-and-hold for keys in favor of key repeat
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
+
+# Set a blazingly fast keyboard repeat rate
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 10
+
+running "Turn off keyboard illumination when computer is not used for 5 minutes"
+defaults write com.apple.BezelServices kDimTime -int 300;ok
 
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
@@ -111,7 +227,7 @@ sudo systemsetup -settimezone "Europe/Paris" > /dev/null
 # -------------------------------------------------------------------
 # Screen
 # -------------------------------------------------------------------
-echo "Start changing Screen Preferences"
+bot "Start changing Screen Preferences"
 
 # Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
@@ -136,7 +252,7 @@ defaults write com.apple.screencapture disable-shadow -bool true
 # -------------------------------------------------------------------
 # Finder
 # -------------------------------------------------------------------
-echo "Start changing Finder Preferences"
+bot "Start changing Finder Preferences"
 
 # Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
 defaults write com.apple.finder QuitMenuItem -bool true
@@ -252,7 +368,7 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 # -------------------------------------------------------------------
 # Dock, Dashboard, and hot corners
 # -------------------------------------------------------------------
-echo "Start changing Dock, Dashboard, and hot corners Preferences"
+bot "Start changing Dock, Dashboard, and hot corners Preferences"
 
 # Enable highlight hover effect for the grid view of a stack (Dock)
 defaults write com.apple.dock mouse-over-hilite-stack -bool true
@@ -353,7 +469,7 @@ defaults write com.apple.dock wvous-br-modifier -int 0
 ###############################################################################
 # Safari & WebKit                                                             #
 ###############################################################################
-echo "Start changing Safari Preferences"
+bot "Start changing Safari Preferences"
 
 # Privacy: don’t send search queries to Apple
 defaults write com.apple.Safari UniversalSearchEnabled -bool false
@@ -467,7 +583,7 @@ defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnab
 ###############################################################################
 # Spotlight                                                                   #
 ###############################################################################
-echo "Start changing Spotlight Preferences"
+bot "Start changing Spotlight Preferences"
 
 # Hide Spotlight tray-icon (and subsequent helper)
 #sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
@@ -516,7 +632,7 @@ sudo mdutil -E / > /dev/null
 ###############################################################################
 # Terminal & iTerm 2                                                          #
 ###############################################################################
-echo "Start changing Terminal & iTerm 2 Preferences"
+bot "Start changing Terminal & iTerm 2 Preferences"
 
 # Only use UTF-8 in Terminal.app
 defaults write com.apple.terminal StringEncodings -array 4
@@ -576,7 +692,7 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 ###############################################################################
 # Activity Monitor                                                            #
 ###############################################################################
-echo "Start changing Activity Monitor Preferences"
+bot "Start changing Activity Monitor Preferences"
 
 # Show the main window when launching Activity Monitor
 defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
@@ -594,7 +710,11 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 ###############################################################################
 # Address Book, Dashboard, iCal, TextEdit, and Disk Utility                   #
 ###############################################################################
-echo "Start changing Address Book, Dashboard, iCal, TextEdit, and Disk Utility Preferences"
+bot "Start changing Address Book, Dashboard, iCal, TextEdit, and Disk Utility Preferences"
+
+# "Week starts on monday"
+defaults write com.apple.iCal "first day of week" -int 1
+defaults write NSGlobalDomain AppleFirstWeekday -dict 'gregorian' 2;ok
 
 # Enable the debug menu in Address Book
 defaults write com.apple.addressbook ABShowDebugMenu -bool true
@@ -621,7 +741,7 @@ defaults write com.apple.QuickTimePlayerX MGPlayMovieOnOpen -bool true
 ###############################################################################
 # Mac App Store                                                               #
 ###############################################################################
-echo "Start changing Mac App Store Preferences"
+bot "Start changing Mac App Store Preferences"
 
 # Enable the WebKit Developer Tools in the Mac App Store
 defaults write com.apple.appstore WebKitDeveloperExtras -bool true
@@ -653,7 +773,7 @@ defaults write com.apple.commerce AutoUpdateRestartRequired -bool false
 ###############################################################################
 # Photos                                                                      #
 ###############################################################################
-echo "Start changing Photos Preferences"
+bot "Start changing Photos Preferences"
 
 # Prevent Photos from opening automatically when devices are plugged in
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
@@ -661,7 +781,7 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 ###############################################################################
 # Messages                                                                    #
 ###############################################################################
-echo "Start changing Messages Preferences"
+bot "Start changing Messages Preferences"
 
 # Disable automatic emoji substitution (i.e. use plain text smileys)
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
@@ -675,7 +795,7 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 ###############################################################################
 # Google Chrome                                        #
 ###############################################################################
-echo "Start changing Google Chrome Preferences"
+bot "Start changing Google Chrome Preferences"
 
 # Disable the all too sensitive backswipe on trackpads
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
@@ -692,7 +812,7 @@ defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
 ###############################################################################
 # Sublime Text                                                                #
 ###############################################################################
-echo "Start changing Sublime Text Preferences"
+bot "Start changing Sublime Text Preferences"
 
 # Install Sublime Text settings
 cp -r init/Preferences.sublime-settings ~/Library/Application\ Support/Sublime\ Text*/Packages/User/Preferences.sublime-settings 2> /dev/null
@@ -700,7 +820,7 @@ cp -r init/Preferences.sublime-settings ~/Library/Application\ Support/Sublime\ 
 ###############################################################################
 # Spectacle.app                                                               #
 ###############################################################################
-echo "Start changing Spectacle.app Preferences"
+bot "Start changing Spectacle.app Preferences"
 
 # Set up my preferred keyboard shortcuts
 cp -r init/spectacle.json ~/Library/Application\ Support/Spectacle/Shortcuts.json 2> /dev/null
@@ -728,4 +848,4 @@ for app in "Activity Monitor" \
 	"iCal"; do
 	killall "${app}" &> /dev/null
 done
-echo "Done. Note that some of these changes require a logout/restart to take effect."
+bot "Done. Note that some of these changes require a logout/restart to take effect."

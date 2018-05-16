@@ -11,9 +11,9 @@ DEFAULT_GITHUBUSER="clement26695"
 # include my library helpers for colorized echo and require_brew, etc
 source ./lib.sh
 # sourcing shellvars so we can get tools specific pre-loaded settings
-source ./.shellvars
+source ./homedir/.exports
 # we might need the functions
-source ./.shellfn
+source ./homedir/.functions
 
 # clear stdin from pending input
 clean_stdin
@@ -88,7 +88,7 @@ running "Email set to '$COL_YELLOW$email$COL_RESET'";ok
 ################################################
 # github username
 ################################################
-githubuser=`awk '/user = /{ print $3 }' .gitconfig`
+githubuser=`awk '/user = /{ print $3 }' ./homedir/.gitconfig`
 if [[ ! $githubuser ]];then
   response='n'
 else
@@ -230,14 +230,14 @@ popd > /dev/null 2>&1
 source ./brew.sh
 
 ################################################
-# osx
-################################################
-source ./osx.sh
-
-################################################
 # brew cask
 ################################################
 source ./casks.sh
+
+################################################
+# osx
+################################################
+source ./osx.sh
 
 ################################################
 # "extra" software
@@ -257,7 +257,7 @@ msg "Note that some of these changes require a logout/restart to take effect."; 
 msg "You should also NOT open System Preferences. It might overwrite some of the settings."; filler
 running "Killing affected applications (so they can reboot)...."
 for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" "cfprefsd" \
-  "Dock" "Finder" "Mail" "Messages" "SystemUIServer" "iCal" "Visual Studio Code" \
+  "Dock" "Finder" "Google Chrome" "Mail" "Messages" "Photos" "Safari" "Spectacle" "SystemUIServer" "iCal" "Visual Studio Code" \
   "The Unarchiver"; do
   killall "${app}" > /dev/null 2>&1
 done

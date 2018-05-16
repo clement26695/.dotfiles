@@ -824,28 +824,3 @@ bot "Start changing Spectacle.app Preferences"
 
 # Set up my preferred keyboard shortcuts
 cp -r init/spectacle.json ~/Library/Application\ Support/Spectacle/Shortcuts.json 2> /dev/null
-
-###############################################################################
-# Kill affected applications                                                  #
-###############################################################################
-
-for app in "Activity Monitor" \
-	"Address Book" \
-	"Calendar" \
-	"cfprefsd" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Google Chrome" \
-	"Mail" \
-	"Messages" \
-	"Photos" \
-	"Safari" \
-	"SizeUp" \
-	"Spectacle" \
-	"SystemUIServer" \
-	"Terminal" \
-	"iCal"; do
-	killall "${app}" &> /dev/null
-done
-bot "Done. Note that some of these changes require a logout/restart to take effect."

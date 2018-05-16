@@ -18,7 +18,7 @@ ok; botdone
 ###############################################################################
 bot "Installing >Docker<"
 ###############################################################################
-require_cask dockertoolbox
+require_cask docker-toolbox
 
 botdone
 

@@ -1,0 +1,13 @@
+{
+    "workbench.activityBar.visible": true,
+    "workbench.statusBar.visible": false,
+    "workbench.sideBar.location": "left",
+    "window.zoomLevel": -1,
+    "editor.fontFamily": "Droid Sans Mono Awesome, Monaco",
+    "workbench.iconTheme": "material-icon-theme",
+	"files.trimTrailingWhitespace": true,
+	"editor.insertSpaces": false,
+	"files.exclude": {
+		"node_modules/": true
+	}
+}

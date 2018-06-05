@@ -33,9 +33,9 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.serve
 dscacheutil -flushcache;ok
 
 # Disable the sound effects on boot
-sudo nvram SystemAudioVolume=" "
+sudo nvram SystemAudioVolume="%80"
 
-# Set highlight color to green
+# Set highlight color to grey
 defaults write NSGlobalDomain AppleHighlightColor -string "0.4705882353 0.4705882353 0.4705882353"
 
 # Set sidebar icon size to medium

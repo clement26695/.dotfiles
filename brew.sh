@@ -37,22 +37,23 @@ botdone
 bot "Setting up >Git<"
 ################################################
 
-running "Setting [github.token] parameter"; filler
-config=`git config -f .gitconfig.local github.token > /dev/null 2>&1`
-if [[ $? == 0 ]]; then
-  question "[github.token] configuration already found. Do you want to replace it? [y|N]" response
-else
-  response='Y'
-fi
+# To Be Fixed : path to gitconfig.local
+# running "Setting [github.token] parameter"; filler
+# config=`git config -f .gitconfig.local github.token > /dev/null 2>&1`
+# if [[ $? == 0 ]]; then
+#   question "[github.token] configuration already found. Do you want to replace it? [y|N]" response
+# else
+#   response='Y'
+# fi
 
-if [[ $response =~ ^(yes|y|Y) ]];then
-  running "Opening Github tokens website"
-  open "https://github.com/settings/tokens"; ok
-  question "Please input your github command line token:" githubtoken
-  running "Adding github token to your .gitconfig.local file"
-  git config -f .gitconfig.local github.token "$githubtoken"
-fi
-ok
+# if [[ $response =~ ^(yes|y|Y) ]];then
+#   running "Opening Github tokens website"
+#   open "https://github.com/settings/tokens"; ok
+#   question "Please input your github command line token:" githubtoken
+#   running "Adding github token to your .gitconfig.local file"
+#   git config -f .gitconfig.local github.token "$githubtoken"
+# fi
+# ok
 
 running "installing git brews"; filler
 # skip those GUI clients, git command-line all the way
@@ -85,6 +86,17 @@ botdone
 require_brew fontconfig
 bot "installing fonts"
 ./fonts/install.sh
+brew tap caskroom/fonts
+require_cask font-fontawesome
+require_cask font-awesome-terminal-fonts
+require_cask font-hack
+require_cask font-inconsolata-dz-for-powerline
+require_cask font-inconsolata-g-for-powerline
+require_cask font-inconsolata-for-powerline
+require_cask font-roboto-mono
+require_cask font-roboto-mono-for-powerline
+require_cask font-source-code-pro
+ok
 
 if [[ ! -d "./oh-my-zsh/custom/themes/powerlevel9k" ]]; then
   git clone https://github.com/bhilburn/powerlevel9k.git oh-my-zsh/custom/themes/powerlevel9k

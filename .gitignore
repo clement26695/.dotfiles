@@ -1,5 +1,5 @@
- ideas/
-config/passwords
+config/passwords/
+config/.ssh/*
 To Do
 
 # Created by https://www.gitignore.io/api/macos

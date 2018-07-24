@@ -1,6 +1,6 @@
 {
     "workbench.activityBar.visible": true,
-    "workbench.statusBar.visible": false,
+    "workbench.statusBar.visible": true,
     "workbench.sideBar.location": "left",
     "window.zoomLevel": -1,
     "editor.fontFamily": "Droid Sans Mono Awesome, Monaco",
@@ -9,5 +9,10 @@
 	"editor.insertSpaces": false,
 	"files.exclude": {
 		"node_modules/": true
-	}
+    },
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "workbench.colorTheme": "Quiet Light",
+    "java.errors.incompleteClasspath.severity": "ignore"
 }

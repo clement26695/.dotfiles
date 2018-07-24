@@ -87,10 +87,11 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='blue'
 
 POWERLEVEL9K_CUSTOM_INTERNET_SIGNAL_BACKGROUND='252'
 POWERLEVEL9K_CUSTOM_BATTERY_STATUS_BACKGROUND='252'
+POWERLEVEL9K_TODO_BACKGROUND='252'
 
 DEFAULT_USER='clementdessoude'
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context custom_internet_signal custom_battery_status_joined ssh root_indicator dir dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs command_execution_time  status  time)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context todo  custom_battery_status_joined ssh root_indicator dir dir_writable vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs command_execution_time status time)
 
 #export ZSH_THEME="random"
 

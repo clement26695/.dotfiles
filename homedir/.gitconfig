@@ -12,7 +12,7 @@
 	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+	path = 
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
@@ -31,3 +31,6 @@
 	cl = clone --recursive
 	branches = branch -a
 	remotes = remote -v
+[credential]
+	helper = !aws --profile sts codecommit credential-helper $@
+	UseHttpPath = true

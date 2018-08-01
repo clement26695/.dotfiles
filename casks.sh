@@ -112,16 +112,16 @@ fi
 require_cask vlc
 #require_cask asepsis
 require_cask skype
-require_cask gimp
+# require_cask gimp
 require_cask alinof-timer
 require_cask java
-require_cask slack
+# require_cask slack
 
 require_cask adobe-acrobat-reader
 require_cask android-file-transfer
 require_cask ccleaner
 require_cask filezilla
-require_cask spectacle
+# require_cask spectacle
 require_cask sublime-text
 
 botdone

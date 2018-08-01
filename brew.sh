@@ -62,6 +62,7 @@ require_brew git
 require_brew git-flow
 # hub command line tools
 require_brew hub
+require_brew install todo-txt
 botdone
 
 ################################################

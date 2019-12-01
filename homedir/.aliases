@@ -19,8 +19,6 @@ alias g='git'
 # Shortcuts
 alias dl="cd ~/Downloads"
 alias dk="cd ~/Desktop"
-alias pers='~/Documents/Personal'
-alias ippon='~/Documents/Ippon'
 
 # # -------------------------------------------------------------------
 # # Programs
@@ -28,13 +26,6 @@ alias ippon='~/Documents/Ippon'
 # alias minecraft='open ~/Documents/Personal/Games/Minecraft_Launcher_1.25/Minecraft_Launcher.jar'
 # alias starbound='wine /Users/clementdessoude/.wine/drive_c/Games/Starbound/win64/starbound.exe'
 # alias jupyter="/anaconda3/bin/jupyter_mac.command ; exit;"
-
-# -------------------------------------------------------------------
-# Scripts
-# -------------------------------------------------------------------
-
-alias paroles="python ~/Documents/Personal/Dev/Divers/lyrics.py"
-alias remaining='python ~/Documents/Personal/tempIppon.py'
 
 # -------------------------------------------------------------------
 # Common aliases

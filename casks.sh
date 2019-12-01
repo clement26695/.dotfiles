@@ -60,26 +60,26 @@ if [ $firstinstall == 1 ]; then
 fi
 botdone
 
-###############################################################################
-bot "Installing >The Unarchiver<"
-###############################################################################
-require_cask the-unarchiver
+# ###############################################################################
+# bot "Installing >The Unarchiver<"
+# ###############################################################################
+# require_cask the-unarchiver
 
-# Work on El Capitan but for YOSEMITE it creates a "special file"
-# somehwere the ~/Library/Containers folder
-running "Set to extract archives to same folder as the archive"
-defaults write cx.c3.theunarchiver extractionDestination -int 1;ok
+# # Work on El Capitan but for YOSEMITE it creates a "special file"
+# # somehwere the ~/Library/Containers folder
+# running "Set to extract archives to same folder as the archive"
+# defaults write cx.c3.theunarchiver extractionDestination -int 1;ok
 
-running "Set the modification date of the created folder to the modification date of the archive file"
-defaults write cx.c3.theunarchiver folderModifiedDate -int 2;ok
+# running "Set the modification date of the created folder to the modification date of the archive file"
+# defaults write cx.c3.theunarchiver folderModifiedDate -int 2;ok
 
-running "Delete archive after extraction"
-defaults write cx.c3.theunarchiver deleteExtractedArchive -bool true;ok
+# running "Delete archive after extraction"
+# defaults write cx.c3.theunarchiver deleteExtractedArchive -bool true;ok
 
-running "Do not open folder afer extraction"
-defaults write cx.c3.theunarchiver openExtractedFolder -bool false;ok
+# running "Do not open folder afer extraction"
+# defaults write cx.c3.theunarchiver openExtractedFolder -bool false;ok
 
-botdone
+# botdone
 
 
 ###############################################################################
@@ -109,19 +109,17 @@ if [[ $firstinstall == 1 ]]; then
 fi
 
 
-require_cask vlc
-#require_cask asepsis
-require_cask skype
-# require_cask gimp
+# require_cask vlc
+# require_cask skype
 require_cask alinof-timer
 require_cask java
-# require_cask slack
+require_cask slack
 
 require_cask adobe-acrobat-reader
-require_cask android-file-transfer
+# require_cask android-file-transfer
 require_cask ccleaner
-require_cask filezilla
-# require_cask spectacle
+# require_cask filezilla
+require_cask spectacle
 require_cask sublime-text
 
 botdone

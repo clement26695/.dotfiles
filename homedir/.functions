@@ -22,35 +22,9 @@ function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
 }
 
-# Create a new git repo with one README commit and CD into it
-function gitnr() { mkdir $1; cd $1; git init; touch README; git add README; git commit -mFirst-commit;}
-
-# Create a new git ignore file
-function gignore() {
-  result=$(curl "https://www.gitignore.io/api/$1" 2>/dev/null)
-
-  if [[ $result =~ ERROR ]]; then
-    echo "Query '$1' has no match. See a list of possible queries with 'gi list'"
-  elif [[ $1 = list ]]; then
-    echo "$result"
-  else
-    if [[ -f .gitignore ]]; then
-      result=`echo "$result" | grep -v "# Created by http://www.gitignore.io"`
-      echo ".gitignore already exists, appending"
-      echo "$result" >> .gitignore
-    else
-      echo "$result" > .gitignore
-    fi
-  fi
-}
-
 # Use Mac OSX Preview to open a man page in a more handsome format
 function manp() {
   man -t $1 | open -f -a /Applications/Preview.app
-}
-
-function fixperms(){
-    find . \( -name "*.sh" -or -type d \) -exec chmod 755 {} \; && find . -type f ! -name "*.sh" -exec chmod 644 {} \;
 }
 
 ## Weather

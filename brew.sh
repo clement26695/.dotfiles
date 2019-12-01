@@ -59,10 +59,10 @@ running "installing git brews"; filler
 # skip those GUI clients, git command-line all the way
 require_brew git
 # yes, yes, use git-flow, please :)
-require_brew git-flow
+# require_brew git-flow
 # hub command line tools
-require_brew hub
-require_brew install todo-txt
+# require_brew hub
+# require_brew install todo-txt
 botdone
 
 ################################################
@@ -119,32 +119,32 @@ bot "Installing >homebrew command-line tools<"
 brew tap homebrew/dupes > /dev/null 2>&1
 
 # Install GNU core utilities (those that come with OS X are outdated)
-require_brew coreutils
+# require_brew coreutils
 # Install some other useful utilities like `sponge`
-require_brew moreutils
+# require_brew moreutils
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed
-require_brew findutils --with-default-names
+# require_brew findutils --with-default-names
 # diff
-require_brew diffutils
+# require_brew diffutils
 # Install GNU `sed`, overwriting the built-in `sed`
 # so we can do "sed -i 's/foo/bar/' file" instead of "sed -i '' 's/foo/bar/' file"
-require_brew gnu-sed --with-default-names
+# require_brew gnu-sed --with-default-names
 # other tools per: http://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities
-require_brew gnu-indent --with-default-names
-require_brew gnutls
-require_brew gnu-tar --with-default-names
-require_brew gnu-getopt --with-default-names
-require_brew gnu-which --with-default-names
-require_brew gawk
+# require_brew gnu-indent --with-default-names
+# require_brew gnutls
+# require_brew gnu-tar --with-default-names
+# require_brew gnu-getopt --with-default-names
+# require_brew gnu-which --with-default-names
+# require_brew gawk
 
 # other tools
-require_brew gzip
+# require_brew gzip
 require_brew make
 require_brew less
 require_brew openssh
 require_brew rsync
 require_brew unzip
-require_brew file-formula
+# require_brew file-formula
 
 # was missing --default-name it might fix the points below
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
@@ -157,9 +157,9 @@ require_brew file-formula
 #install bash-completion
 
 # better, more recent grep
-require_brew grep --with-default-names
+# require_brew grep --with-default-names
 # Install other useful binaries
-require_brew ack
+# require_brew ack
 # jq is a JSON grep
 # require_brew jq
 # better/more recent version of screen
@@ -172,7 +172,7 @@ require_brew wget --with-iri
 require_brew rename
 # require_brew hardlink-osx
 # manage ssh servers
-require_brew stormssh
+# require_brew stormssh
 
 #Start Terminal sessions with a possibly-witty quote
 require_brew fortune
